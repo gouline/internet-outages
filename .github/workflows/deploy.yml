@@ -1,0 +1,40 @@
+on:
+  push:
+    branches:
+      - master
+  # TODO: enable for regular schedule
+  # schedule:
+  #   - cron: "0 2,7,12,19 * * *"
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    name: run
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - uses: nanasess/setup-chromedriver@master
+
+      - name: Requirements
+        run: make requirements
+
+      - name: Run
+        run: make run
+        env:
+          PROVIDER_USERNAME: ${{ secrets.PROVIDER_USERNAME }}
+          PROVIDER_PASSWORD: ${{ secrets.PROVIDER_PASSWORD }}
+
+      - name: Deploy
+        uses: exuanbo/actions-deploy-gist@v1
+        with:
+          token: ${{ secrets.GIST_TOKEN }}
+          gist_id: 1bf8a5d54682b500fdfa284df528d6b9
+          gist_file_name: outages.ics
+          file_path: ./dist/outages.ics
