@@ -53,7 +53,7 @@ def get_outages(driver: webdriver.Chrome) -> List[Outage]:
     username = os.getenv("PROVIDER_USERNAME")
     password = os.getenv("PROVIDER_PASSWORD")
 
-    driver.get("https://gouline.github.io/internet-outages/provider/login.html")
+    driver.get("https://gouline.github.io/outages-sample/provider/login.html")
     driver.find_element_by_id("username").send_keys(username)
     driver.find_element_by_id("password").send_keys(password)
     driver.find_element_by_tag_name("form").submit()
