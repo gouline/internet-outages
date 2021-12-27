@@ -1,6 +1,6 @@
-# internet-outages
+# outages-sample
 
-Selenium Python example for scraping internet outages from a website.
+Selenium Python example for scraping outages from a website.
 
 ## GitHub Actions
 
